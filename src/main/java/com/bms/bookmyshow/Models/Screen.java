@@ -1,6 +1,6 @@
 package com.bms.bookmyshow.Models;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +10,21 @@ import java.util.List;
 @Setter
 @Entity
 public class Screen extends BaseModel{
+
     private String name;
+
+    @OneToMany
     private List<Seat> seats;
+
+    @Enumerated(EnumType.ORDINAL)
+    @ElementCollection
     private List<Feature> features;
 }
+
+/*
+
+    1       M
+Screen --- Seat
+    1       1
+
+ */
