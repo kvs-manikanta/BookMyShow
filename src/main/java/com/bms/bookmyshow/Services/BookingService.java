@@ -2,6 +2,7 @@ package com.bms.bookmyshow.Services;
 
 import com.bms.bookmyshow.Exceptions.UserNotFoundException;
 import com.bms.bookmyshow.Models.*;
+import com.bms.bookmyshow.Repositories.BookingRepository;
 import com.bms.bookmyshow.Repositories.ShowRepository;
 import com.bms.bookmyshow.Repositories.ShowSeatRepository;
 import com.bms.bookmyshow.Repositories.UserRepository;
@@ -19,17 +20,21 @@ public class BookingService {
     private ShowRepository showRepository;
     private ShowSeatRepository showSeatRepository;
     private PriceCalculator priceCalculator;
+    private BookingRepository bookingRepository;
 
     //ConstructorInjection
     public BookingService(UserRepository userRepository,
                             ShowRepository showRepository,
                             ShowSeatRepository showSeatRepository,
-                            PriceCalculator priceCalculator)
+                            PriceCalculator priceCalculator,
+                            BookingRepository bookingRepository)
     {
         this.userRepository=userRepository;
         this.showRepository=showRepository;
         this.showSeatRepository=showSeatRepository;
         this.priceCalculator=priceCalculator;
+        this.bookingRepository=bookingRepository;
+
     }
 
     public Booking createBooking(Long userId, List<Long> showSeatIds,Long showId) throws UserNotFoundException {
@@ -99,10 +104,10 @@ public class BookingService {
 
         booking.setAmount(priceCalculator.calculatePrice(show,showSeats));
 
+        //8.Now book the Ticket and save it to the DB
+        bookingRepository.save(booking);
 
-
-
-        return null;
+        return bookingRepository.save(booking);
     }
 
 }
