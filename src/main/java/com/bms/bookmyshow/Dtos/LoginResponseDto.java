@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateBookingResponseDto {
-    private Long bookingId;
+public class LoginResponseDto {
+
     private ResponseStatus responseStatus;
 }
